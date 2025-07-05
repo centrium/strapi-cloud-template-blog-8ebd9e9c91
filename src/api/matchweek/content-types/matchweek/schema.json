@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "matchweeks",
+  "info": {
+    "singularName": "matchweek",
+    "pluralName": "matchweeks",
+    "displayName": "Matchweek"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "matchweek_number": {
+      "type": "integer",
+      "default": 1,
+      "unique": false
+    },
+    "season": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::season.season",
+      "inversedBy": "matchweeks"
+    },
+    "date": {
+      "type": "date"
+    },
+    "fixtures": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fixture.fixture",
+      "mappedBy": "matchweek"
+    },
+    "standings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::standing.standing",
+      "mappedBy": "matchweek"
+    }
+  }
+}

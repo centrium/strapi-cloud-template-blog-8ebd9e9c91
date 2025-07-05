@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "standings",
+  "info": {
+    "singularName": "standing",
+    "pluralName": "standings",
+    "displayName": "Standing"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "matchweek": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::matchweek.matchweek",
+      "inversedBy": "standings"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "standings"
+    },
+    "position": {
+      "type": "integer"
+    },
+    "played": {
+      "type": "integer"
+    },
+    "wins": {
+      "type": "integer"
+    },
+    "draws": {
+      "type": "integer"
+    },
+    "losses": {
+      "type": "integer"
+    },
+    "points": {
+      "type": "integer"
+    },
+    "gf": {
+      "type": "integer"
+    },
+    "ga": {
+      "type": "integer"
+    },
+    "gd": {
+      "type": "integer"
+    }
+  }
+}

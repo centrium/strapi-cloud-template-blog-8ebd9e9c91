@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "manager_tenures",
+  "info": {
+    "singularName": "manager-tenure",
+    "pluralName": "manager-tenures",
+    "displayName": "Manager Tenure"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "manager_tenures"
+    },
+    "manager": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::manager.manager",
+      "inversedBy": "manager_tenures"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    }
+  }
+}

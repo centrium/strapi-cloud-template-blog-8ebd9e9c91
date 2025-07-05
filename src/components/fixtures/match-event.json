@@ -1,0 +1,49 @@
+{
+  "collectionName": "components_fixtures_match_events",
+  "info": {
+    "displayName": "match_event",
+    "icon": "shirt"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "goal",
+        "own_goal",
+        "penalty",
+        "penalty_goal",
+        "penalty_missed",
+        "penalty_saved",
+        "yellow_card",
+        "second_yellow_card",
+        "red_card",
+        "substitution",
+        "assist",
+        "var_review",
+        "injury",
+        "disallowed_goal",
+        "start",
+        "half-time",
+        "full-time"
+      ]
+    },
+    "minute": {
+      "type": "integer"
+    },
+    "player": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::player.player"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::team.team"
+    },
+    "details": {
+      "type": "text"
+    }
+  },
+  "config": {}
+}

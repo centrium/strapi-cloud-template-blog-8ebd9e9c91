@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "managers",
+  "info": {
+    "singularName": "manager",
+    "pluralName": "managers",
+    "displayName": "Manager"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "birthday": {
+      "type": "date"
+    },
+    "nationality": {
+      "type": "string"
+    },
+    "manager_tenures": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::manager-tenure.manager-tenure",
+      "mappedBy": "manager"
+    },
+    "fixture_home_manager": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fixture.fixture",
+      "mappedBy": "home_manager"
+    },
+    "fixture_manager_away": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fixture.fixture",
+      "mappedBy": "away_manager"
+    }
+  }
+}

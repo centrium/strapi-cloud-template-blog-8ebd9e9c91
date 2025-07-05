@@ -11,16 +11,16 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "Name": {
+    "name": {
       "type": "string"
     },
-    "Slug": {
+    "slug": {
       "type": "string"
     },
-    "Country": {
+    "country": {
       "type": "string"
     },
-    "Logo": {
+    "logo": {
       "type": "media",
       "multiple": true,
       "allowedTypes": [
@@ -29,6 +29,18 @@
         "videos",
         "audios"
       ]
+    },
+    "seasons": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::season.season",
+      "mappedBy": "league"
+    },
+    "teams": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::team.team",
+      "inversedBy": "leagues"
     }
   }
 }

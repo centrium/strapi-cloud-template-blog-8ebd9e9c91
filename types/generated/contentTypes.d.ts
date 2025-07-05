@@ -373,6 +373,64 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFixtureFixture extends Struct.CollectionTypeSchema {
+  collectionName: 'fixtures';
+  info: {
+    displayName: 'Fixture';
+    pluralName: 'fixtures';
+    singularName: 'fixture';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    attendance: Schema.Attribute.Integer;
+    away_manager: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::manager.manager'
+    >;
+    away_score: Schema.Attribute.Integer;
+    away_team: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    events: Schema.Attribute.Component<'fixtures.match-event', true>;
+    fixture_status: Schema.Attribute.Enumeration<
+      [
+        'Scheduled',
+        'Postponed',
+        'Completed',
+        'Abandoned',
+        'Awarded',
+        'Cancelled',
+      ]
+    >;
+    home_manager: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::manager.manager'
+    >;
+    home_score: Schema.Attribute.Integer;
+    home_team: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::fixture.fixture'
+    > &
+      Schema.Attribute.Private;
+    matchweek: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::matchweek.matchweek'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    referee: Schema.Attribute.String;
+    stadium: Schema.Attribute.Relation<'manyToOne', 'api::stadium.stadium'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiLeagueLeague extends Struct.CollectionTypeSchema {
   collectionName: 'leagues';
   info: {
@@ -384,7 +442,7 @@ export interface ApiLeagueLeague extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    Country: Schema.Attribute.String;
+    country: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -394,13 +452,366 @@ export interface ApiLeagueLeague extends Struct.CollectionTypeSchema {
       'api::league.league'
     > &
       Schema.Attribute.Private;
-    Logo: Schema.Attribute.Media<
+    logo: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
     >;
-    Name: Schema.Attribute.String;
+    name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    Slug: Schema.Attribute.String;
+    seasons: Schema.Attribute.Relation<'oneToMany', 'api::season.season'>;
+    slug: Schema.Attribute.String;
+    teams: Schema.Attribute.Relation<'manyToMany', 'api::team.team'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiManagerTenureManagerTenure
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'manager_tenures';
+  info: {
+    displayName: 'Manager Tenure';
+    pluralName: 'manager-tenures';
+    singularName: 'manager-tenure';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    end_date: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::manager-tenure.manager-tenure'
+    > &
+      Schema.Attribute.Private;
+    manager: Schema.Attribute.Relation<'manyToOne', 'api::manager.manager'>;
+    publishedAt: Schema.Attribute.DateTime;
+    start_date: Schema.Attribute.Date;
+    team: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiManagerManager extends Struct.CollectionTypeSchema {
+  collectionName: 'managers';
+  info: {
+    displayName: 'Manager';
+    pluralName: 'managers';
+    singularName: 'manager';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    birthday: Schema.Attribute.Date;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    fixture_home_manager: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::fixture.fixture'
+    >;
+    fixture_manager_away: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::fixture.fixture'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::manager.manager'
+    > &
+      Schema.Attribute.Private;
+    manager_tenures: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::manager-tenure.manager-tenure'
+    >;
+    name: Schema.Attribute.String;
+    nationality: Schema.Attribute.String;
+    photo: Schema.Attribute.Media<'images' | 'files'>;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiMatchweekMatchweek extends Struct.CollectionTypeSchema {
+  collectionName: 'matchweeks';
+  info: {
+    displayName: 'Matchweek';
+    pluralName: 'matchweeks';
+    singularName: 'matchweek';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    fixtures: Schema.Attribute.Relation<'oneToMany', 'api::fixture.fixture'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::matchweek.matchweek'
+    > &
+      Schema.Attribute.Private;
+    matchweek_number: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
+    publishedAt: Schema.Attribute.DateTime;
+    season: Schema.Attribute.Relation<'manyToOne', 'api::season.season'>;
+    standings: Schema.Attribute.Relation<'oneToMany', 'api::standing.standing'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPlayerTenurePlayerTenure
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'player_tenures';
+  info: {
+    displayName: 'Player Tenure';
+    pluralName: 'player-tenures';
+    singularName: 'player-tenure';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    end_date: Schema.Attribute.Date;
+    loan_from: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::player-tenure.player-tenure'
+    > &
+      Schema.Attribute.Private;
+    notes: Schema.Attribute.Text;
+    player: Schema.Attribute.Relation<'manyToOne', 'api::player.player'>;
+    publishedAt: Schema.Attribute.DateTime;
+    shirt_number: Schema.Attribute.Integer;
+    start_date: Schema.Attribute.Date;
+    team: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    transfer_fee: Schema.Attribute.Integer;
+    transfer_status: Schema.Attribute.Enumeration<['Owned', 'Loaned']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPlayerPlayer extends Struct.CollectionTypeSchema {
+  collectionName: 'players';
+  info: {
+    displayName: 'Player';
+    pluralName: 'players';
+    singularName: 'player';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    birthday: Schema.Attribute.Date;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::player.player'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    nationality: Schema.Attribute.String;
+    photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    player_tenures: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::player-tenure.player-tenure'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSeasonSeason extends Struct.CollectionTypeSchema {
+  collectionName: 'seasons';
+  info: {
+    displayName: 'Season';
+    pluralName: 'seasons';
+    singularName: 'season';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    end_date: Schema.Attribute.DateTime;
+    league: Schema.Attribute.Relation<'manyToOne', 'api::league.league'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::season.season'
+    > &
+      Schema.Attribute.Private;
+    matchweeks: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::matchweek.matchweek'
+    >;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    start_date: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiStadiumStadium extends Struct.CollectionTypeSchema {
+  collectionName: 'stadiums';
+  info: {
+    displayName: 'Stadium';
+    pluralName: 'stadiums';
+    singularName: 'stadium';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    address: Schema.Attribute.String;
+    capacity: Schema.Attribute.String;
+    city: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.String;
+    fixtures: Schema.Attribute.Relation<'oneToMany', 'api::fixture.fixture'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::stadium.stadium'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    photo: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    pitch_size: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    teams: Schema.Attribute.Relation<'oneToMany', 'api::team.team'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    year_opened: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiStandingStanding extends Struct.CollectionTypeSchema {
+  collectionName: 'standings';
+  info: {
+    displayName: 'Standing';
+    pluralName: 'standings';
+    singularName: 'standing';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    draws: Schema.Attribute.Integer;
+    ga: Schema.Attribute.Integer;
+    gd: Schema.Attribute.Integer;
+    gf: Schema.Attribute.Integer;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::standing.standing'
+    > &
+      Schema.Attribute.Private;
+    losses: Schema.Attribute.Integer;
+    matchweek: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::matchweek.matchweek'
+    >;
+    played: Schema.Attribute.Integer;
+    points: Schema.Attribute.Integer;
+    position: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    team: Schema.Attribute.Relation<'manyToOne', 'api::team.team'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    wins: Schema.Attribute.Integer;
+  };
+}
+
+export interface ApiTeamTeam extends Struct.CollectionTypeSchema {
+  collectionName: 'teams';
+  info: {
+    displayName: 'Team';
+    pluralName: 'teams';
+    singularName: 'team';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    city: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    fixtures_away: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::fixture.fixture'
+    >;
+    fixtures_home: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::fixture.fixture'
+    >;
+    founded: Schema.Attribute.Date;
+    leagues: Schema.Attribute.Relation<'manyToMany', 'api::league.league'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::team.team'> &
+      Schema.Attribute.Private;
+    logo: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    manager_tenures: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::manager-tenure.manager-tenure'
+    >;
+    name: Schema.Attribute.String;
+    player_loaned: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::player-tenure.player-tenure'
+    >;
+    player_tenures: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::player-tenure.player-tenure'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    stadium: Schema.Attribute.Relation<'manyToOne', 'api::stadium.stadium'>;
+    standings: Schema.Attribute.Relation<'oneToMany', 'api::standing.standing'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -916,7 +1327,17 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::fixture.fixture': ApiFixtureFixture;
       'api::league.league': ApiLeagueLeague;
+      'api::manager-tenure.manager-tenure': ApiManagerTenureManagerTenure;
+      'api::manager.manager': ApiManagerManager;
+      'api::matchweek.matchweek': ApiMatchweekMatchweek;
+      'api::player-tenure.player-tenure': ApiPlayerTenurePlayerTenure;
+      'api::player.player': ApiPlayerPlayer;
+      'api::season.season': ApiSeasonSeason;
+      'api::stadium.stadium': ApiStadiumStadium;
+      'api::standing.standing': ApiStandingStanding;
+      'api::team.team': ApiTeamTeam;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

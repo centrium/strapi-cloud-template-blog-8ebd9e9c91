@@ -1,0 +1,55 @@
+{
+  "kind": "collectionType",
+  "collectionName": "player_tenures",
+  "info": {
+    "singularName": "player-tenure",
+    "pluralName": "player-tenures",
+    "displayName": "Player Tenure"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "player": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::player.player",
+      "inversedBy": "player_tenures"
+    },
+    "team": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "player_tenures"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "shirt_number": {
+      "type": "integer"
+    },
+    "transfer_status": {
+      "type": "enumeration",
+      "enum": [
+        "Owned",
+        "Loaned"
+      ]
+    },
+    "loan_from": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::team.team",
+      "inversedBy": "player_loaned"
+    },
+    "transfer_fee": {
+      "type": "integer"
+    },
+    "notes": {
+      "type": "text"
+    }
+  }
+}

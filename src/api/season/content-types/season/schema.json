@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "seasons",
+  "info": {
+    "singularName": "season",
+    "pluralName": "seasons",
+    "displayName": "Season"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "league": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::league.league",
+      "inversedBy": "seasons"
+    },
+    "start_date": {
+      "type": "datetime"
+    },
+    "end_date": {
+      "type": "datetime"
+    },
+    "matchweeks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::matchweek.matchweek",
+      "mappedBy": "season"
+    }
+  }
+}

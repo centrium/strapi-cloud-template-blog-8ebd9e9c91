@@ -1,0 +1,85 @@
+{
+  "kind": "collectionType",
+  "collectionName": "teams",
+  "info": {
+    "singularName": "team",
+    "pluralName": "teams",
+    "displayName": "Team"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "leagues": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::league.league",
+      "mappedBy": "teams"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "city": {
+      "type": "string"
+    },
+    "founded": {
+      "type": "date"
+    },
+    "stadium": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::stadium.stadium",
+      "inversedBy": "teams"
+    },
+    "manager_tenures": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::manager-tenure.manager-tenure",
+      "mappedBy": "team"
+    },
+    "player_tenures": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::player-tenure.player-tenure",
+      "mappedBy": "team"
+    },
+    "player_loaned": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::player-tenure.player-tenure",
+      "mappedBy": "loan_from"
+    },
+    "fixtures_home": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fixture.fixture",
+      "mappedBy": "home_team"
+    },
+    "fixtures_away": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::fixture.fixture",
+      "mappedBy": "away_team"
+    },
+    "standings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::standing.standing",
+      "mappedBy": "team"
+    }
+  }
+}
