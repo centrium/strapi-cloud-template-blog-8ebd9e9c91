@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * matchweek router
+ * gameweek router
  */
 
 const { createCoreRouter } = require('@strapi/strapi').factories;
 
-module.exports = createCoreRouter('api::matchweek.matchweek');
+module.exports = createCoreRouter('api::gameweek.gameweek');

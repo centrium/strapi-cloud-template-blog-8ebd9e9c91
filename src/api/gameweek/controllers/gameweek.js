@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * matchweek controller
+ * gameweek controller
  */
 
 const { createCoreController } = require('@strapi/strapi').factories;
 
-module.exports = createCoreController('api::matchweek.matchweek');
+module.exports = createCoreController('api::gameweek.gameweek');

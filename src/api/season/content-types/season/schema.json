@@ -29,10 +29,10 @@
     "end_date": {
       "type": "datetime"
     },
-    "matchweeks": {
+    "gameweeks": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::matchweek.matchweek",
+      "target": "api::gameweek.gameweek",
       "mappedBy": "season"
     }
   }

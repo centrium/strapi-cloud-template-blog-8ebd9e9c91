@@ -1,26 +1,24 @@
 {
   "kind": "collectionType",
-  "collectionName": "matchweeks",
+  "collectionName": "gameweeks",
   "info": {
-    "singularName": "matchweek",
-    "pluralName": "matchweeks",
-    "displayName": "Matchweek"
+    "singularName": "gameweek",
+    "pluralName": "gameweeks",
+    "displayName": "Gameweek"
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "matchweek_number": {
-      "type": "integer",
-      "default": 1,
-      "unique": false
+    "gameweek": {
+      "type": "integer"
     },
     "season": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::season.season",
-      "inversedBy": "matchweeks"
+      "inversedBy": "gameweeks"
     },
     "date": {
       "type": "date"
@@ -29,13 +27,14 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::fixture.fixture",
-      "mappedBy": "matchweek"
+      "mappedBy": "gameweek"
     },
     "standings": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::standing.standing",
-      "mappedBy": "matchweek"
+      "private": true,
+      "mappedBy": "gameweek"
     }
   }
 }

@@ -406,6 +406,7 @@ export interface ApiFixtureFixture extends Struct.CollectionTypeSchema {
         'Cancelled',
       ]
     >;
+    gameweek: Schema.Attribute.Relation<'manyToOne', 'api::gameweek.gameweek'>;
     home_manager: Schema.Attribute.Relation<
       'manyToOne',
       'api::manager.manager'
@@ -418,13 +419,45 @@ export interface ApiFixtureFixture extends Struct.CollectionTypeSchema {
       'api::fixture.fixture'
     > &
       Schema.Attribute.Private;
-    matchweek: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::matchweek.matchweek'
-    >;
     publishedAt: Schema.Attribute.DateTime;
     referee: Schema.Attribute.String;
     stadium: Schema.Attribute.Relation<'manyToOne', 'api::stadium.stadium'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGameweekGameweek extends Struct.CollectionTypeSchema {
+  collectionName: 'gameweeks';
+  info: {
+    displayName: 'Gameweek';
+    pluralName: 'gameweeks';
+    singularName: 'gameweek';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    fixtures: Schema.Attribute.Relation<'oneToMany', 'api::fixture.fixture'>;
+    gameweek: Schema.Attribute.Integer;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::gameweek.gameweek'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    season: Schema.Attribute.Relation<'manyToOne', 'api::season.season'>;
+    standings: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::standing.standing'
+    > &
+      Schema.Attribute.Private;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -543,38 +576,6 @@ export interface ApiManagerManager extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiMatchweekMatchweek extends Struct.CollectionTypeSchema {
-  collectionName: 'matchweeks';
-  info: {
-    displayName: 'Matchweek';
-    pluralName: 'matchweeks';
-    singularName: 'matchweek';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
-    fixtures: Schema.Attribute.Relation<'oneToMany', 'api::fixture.fixture'>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::matchweek.matchweek'
-    > &
-      Schema.Attribute.Private;
-    matchweek_number: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<1>;
-    publishedAt: Schema.Attribute.DateTime;
-    season: Schema.Attribute.Relation<'manyToOne', 'api::season.season'>;
-    standings: Schema.Attribute.Relation<'oneToMany', 'api::standing.standing'>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiPlayerTenurePlayerTenure
   extends Struct.CollectionTypeSchema {
   collectionName: 'player_tenures';
@@ -663,6 +664,7 @@ export interface ApiSeasonSeason extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     end_date: Schema.Attribute.DateTime;
+    gameweeks: Schema.Attribute.Relation<'oneToMany', 'api::gameweek.gameweek'>;
     league: Schema.Attribute.Relation<'manyToOne', 'api::league.league'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -670,10 +672,6 @@ export interface ApiSeasonSeason extends Struct.CollectionTypeSchema {
       'api::season.season'
     > &
       Schema.Attribute.Private;
-    matchweeks: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::matchweek.matchweek'
-    >;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     slug: Schema.Attribute.String;
@@ -738,6 +736,7 @@ export interface ApiStandingStanding extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     draws: Schema.Attribute.Integer;
     ga: Schema.Attribute.Integer;
+    gameweek: Schema.Attribute.Relation<'manyToOne', 'api::gameweek.gameweek'>;
     gd: Schema.Attribute.Integer;
     gf: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -747,10 +746,6 @@ export interface ApiStandingStanding extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     losses: Schema.Attribute.Integer;
-    matchweek: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::matchweek.matchweek'
-    >;
     played: Schema.Attribute.Integer;
     points: Schema.Attribute.Integer;
     position: Schema.Attribute.Integer;
@@ -1328,10 +1323,10 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::fixture.fixture': ApiFixtureFixture;
+      'api::gameweek.gameweek': ApiGameweekGameweek;
       'api::league.league': ApiLeagueLeague;
       'api::manager-tenure.manager-tenure': ApiManagerTenureManagerTenure;
       'api::manager.manager': ApiManagerManager;
-      'api::matchweek.matchweek': ApiMatchweekMatchweek;
       'api::player-tenure.player-tenure': ApiPlayerTenurePlayerTenure;
       'api::player.player': ApiPlayerPlayer;
       'api::season.season': ApiSeasonSeason;

@@ -11,12 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "matchweek": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::matchweek.matchweek",
-      "inversedBy": "fixtures"
-    },
     "home_team": {
       "type": "relation",
       "relation": "manyToOne",
@@ -77,6 +71,12 @@
       "type": "component",
       "component": "fixtures.match-event",
       "repeatable": true
+    },
+    "gameweek": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gameweek.gameweek",
+      "inversedBy": "fixtures"
     }
   }
 }

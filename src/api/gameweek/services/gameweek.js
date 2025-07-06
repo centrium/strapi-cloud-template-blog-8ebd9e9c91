@@ -1,9 +1,9 @@
 'use strict';
 
 /**
- * matchweek service
+ * gameweek service
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
 
-module.exports = createCoreService('api::matchweek.matchweek');
+module.exports = createCoreService('api::gameweek.gameweek');

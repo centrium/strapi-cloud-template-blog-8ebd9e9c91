@@ -11,12 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "matchweek": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::matchweek.matchweek",
-      "inversedBy": "standings"
-    },
     "team": {
       "type": "relation",
       "relation": "manyToOne",
@@ -49,6 +43,12 @@
     },
     "gd": {
       "type": "integer"
+    },
+    "gameweek": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::gameweek.gameweek",
+      "inversedBy": "standings"
     }
   }
 }
